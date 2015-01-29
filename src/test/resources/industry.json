@@ -1,0 +1,587 @@
+{
+ "query": {
+  "count": 1,
+  "created": "2015-01-04T18:42:07Z",
+  "lang": "en-US",
+  "results": {
+   "industry": {
+    "id": "112",
+    "name": "Agricultural Chemicals",
+    "company": [
+     {
+      "name": "Adarsh Plant Protect Ltd",
+      "symbol": "ADARSHPL.BO"
+     },
+     {
+      "name": "Agrium Inc",
+      "symbol": "AGU.DE"
+     },
+     {
+      "name": "Agrium Inc",
+      "symbol": "AGU.TO"
+     },
+     {
+      "name": "Agrium Inc.",
+      "symbol": "AGU"
+     },
+     {
+      "name": "Aimco Pesticides Ltd",
+      "symbol": "AIMCO.BO"
+     },
+     {
+      "name": "American Vanguard Corp.",
+      "symbol": "AVD"
+     },
+     {
+      "name": "Aries Agro Ltd",
+      "symbol": "ARIES.BO"
+     },
+     {
+      "name": "Aries Agro Ltd",
+      "symbol": "ARIES.NS"
+     },
+     {
+      "name": "Basant Agro-Tech India Ltd",
+      "symbol": "BASANTGL.BO"
+     },
+     {
+      "name": "Bayer CropScience Ltd",
+      "symbol": "BAYER.BO"
+     },
+     {
+      "name": "Bayer CropScience Ltd",
+      "symbol": "BAYERCROP.NS"
+     },
+     {
+      "name": "Bhagiradha Chemicals",
+      "symbol": "BHAGCHEM.BO"
+     },
+     {
+      "name": "Bharat Agri Fert & Realty Ltd",
+      "symbol": "BFIL.BO"
+     },
+     {
+      "name": "Bharat Rasayan Ltd",
+      "symbol": "BHARATRAS.NS"
+     },
+     {
+      "name": "Bharat Rasayan Ltd",
+      "symbol": "BHTRAS.BO"
+     },
+     {
+      "name": "Bisi International Tbk",
+      "symbol": "4FM.DE"
+     },
+     {
+      "name": "Camson Bio Technologies Ltd",
+      "symbol": "CAMSONBIO.BO"
+     },
+     {
+      "name": "Cavitation Technologies, Inc.",
+      "symbol": "CVAT"
+     },
+     {
+      "name": "Century Sunshine",
+      "symbol": "0509.HK"
+     },
+     {
+      "name": "Ceres, Inc.",
+      "symbol": "CERE"
+     },
+     {
+      "name": "CF Industries Holdings Inc",
+      "symbol": "C4F.DE"
+     },
+     {
+      "name": "CF Industries Holdings, Inc.",
+      "symbol": "CF"
+     },
+     {
+      "name": "Chambal Fertilisers",
+      "symbol": "CHAMBAL.BO"
+     },
+     {
+      "name": "Chambal Fertilisers",
+      "symbol": "CHAMBLFER.NS"
+     },
+     {
+      "name": "Changjiang Fertilizer",
+      "symbol": "JA9.SI"
+     },
+     {
+      "name": "China Agrotech Holdings Ltd",
+      "symbol": "CQT.DE"
+     },
+     {
+      "name": "China Agrotech Holdings Ltd.",
+      "symbol": "1073.HK"
+     },
+     {
+      "name": "China BlueChemical Ltd",
+      "symbol": "H1Q.DE"
+     },
+     {
+      "name": "China BlueChemical Ltd.",
+      "symbol": "3983.HK"
+     },
+     {
+      "name": "China Green Agriculture Inc",
+      "symbol": "GR0.DE"
+     },
+     {
+      "name": "China Green Agriculture, Inc.",
+      "symbol": "CGA"
+     },
+     {
+      "name": "Chnia XLX Fertiliser Ltd",
+      "symbol": "FF5.DE"
+     },
+     {
+      "name": "Chnia XLX Fertiliser Ltd.",
+      "symbol": "1866.HK"
+     },
+     {
+      "name": "Coromandel International Ltd",
+      "symbol": "COROMINTE.BO"
+     },
+     {
+      "name": "Coromandel International Ltd.",
+      "symbol": "COROMANDE.NS"
+     },
+     {
+      "name": "CVR Partners, LP",
+      "symbol": "UAN"
+     },
+     {
+      "name": "Deepak Fertilisers",
+      "symbol": "DEEPAKFER.NS"
+     },
+     {
+      "name": "Deepak Fertilisers",
+      "symbol": "DEEPAKFERT.BO"
+     },
+     {
+      "name": "Dhanuka Agritech Ltd",
+      "symbol": "DHANUKA.BO"
+     },
+     {
+      "name": "DuSolo Fertilizers Inc",
+      "symbol": "E6R.DE"
+     },
+     {
+      "name": "E I du Pont de Nemours",
+      "symbol": "DD.BA"
+     },
+     {
+      "name": "E I du Pont de Nemours",
+      "symbol": "DD.MX"
+     },
+     {
+      "name": "E I du Pont de Nemours",
+      "symbol": "DUPP.PA"
+     },
+     {
+      "name": "E. I. du Pont de Nemours and C",
+      "symbol": "DD"
+     },
+     {
+      "name": "Excel Crop Care Ltd",
+      "symbol": "EXCELCROP.NS"
+     },
+     {
+      "name": "Excel Crop Care Ltd",
+      "symbol": "XCLCROP.BO"
+     },
+     {
+      "name": "Excel Industries Ltd",
+      "symbol": "EXCELINDU.NS"
+     },
+     {
+      "name": "Excel Industries Ltd",
+      "symbol": "XCLIND.BO"
+     },
+     {
+      "name": "Fertilizantes Heringer SA",
+      "symbol": "BAZA257.SA"
+     },
+     {
+      "name": "Fertilizers & Chemicals T",
+      "symbol": "FACT.NS"
+     },
+     {
+      "name": "Fertilizers & Chemicals T",
+      "symbol": "FACTL.BO"
+     },
+     {
+      "name": "Global Bio-chem",
+      "symbol": "0809.HK"
+     },
+     {
+      "name": "Global Bio-chem",
+      "symbol": "GLY.DE"
+     },
+     {
+      "name": "Gourmet Ocean Products Inc",
+      "symbol": "GOP.V"
+     },
+     {
+      "name": "Graines Voltz",
+      "symbol": "GRVO.PA"
+     },
+     {
+      "name": "Greater China Holdings Ltd.",
+      "symbol": "0431.HK"
+     },
+     {
+      "name": "GroGenesis, Inc.",
+      "symbol": "GROG"
+     },
+     {
+      "name": "Gujarat Narmada Valley",
+      "symbol": "GNFC.BO"
+     },
+     {
+      "name": "Gujarat Narmada Valley",
+      "symbol": "GNFC.NS"
+     },
+     {
+      "name": "Highfield Resources Ltd",
+      "symbol": "HFR.AX"
+     },
+     {
+      "name": "IC Potash Corp",
+      "symbol": "ECA1.DE"
+     },
+     {
+      "name": "IC Potash Corp",
+      "symbol": "ICP.TO"
+     },
+     {
+      "name": "IC Potash Corp",
+      "symbol": "ICP.TO"
+     },
+     {
+      "name": "Incitec Pivot Ltd",
+      "symbol": "I5P.DE"
+     },
+     {
+      "name": "Incitec Pivot Ltd",
+      "symbol": "IPL.AX"
+     },
+     {
+      "name": "Insecticides (India) Ltd",
+      "symbol": "INSECTCID.BO"
+     },
+     {
+      "name": "Insecticides (India) Ltd",
+      "symbol": "INSECTICI.NS"
+     },
+     {
+      "name": "Insumos AGroquimicos SA",
+      "symbol": "INAG.BA"
+     },
+     {
+      "name": "Intrepid Potash Inc",
+      "symbol": "58I.DE"
+     },
+     {
+      "name": "Intrepid Potash, Inc.",
+      "symbol": "IPI"
+     },
+     {
+      "name": "Isagro",
+      "symbol": "ISG.MI"
+     },
+     {
+      "name": "Isagro",
+      "symbol": "ISGS.MI"
+     },
+     {
+      "name": "Karnalyte Resources Inc",
+      "symbol": "KRN.TO"
+     },
+     {
+      "name": "Khaitan Chemicals",
+      "symbol": "KHAICHEM.BO"
+     },
+     {
+      "name": "Kilpest India Ltd",
+      "symbol": "KILPEST.BO"
+     },
+     {
+      "name": "Kiwa Bio-Tech Products Group C",
+      "symbol": "KWBT"
+     },
+     {
+      "name": "M P Agro Industries Ltd",
+      "symbol": "MPAGI.BO"
+     },
+     {
+      "name": "Madras Fertilizers Ltd",
+      "symbol": "MADRASFER.NS"
+     },
+     {
+      "name": "MagIndustries Corp",
+      "symbol": "3TE.DE"
+     },
+     {
+      "name": "MagIndustries Corp",
+      "symbol": "MAA.TO"
+     },
+     {
+      "name": "Mangalore Chemicals",
+      "symbol": "MANGCHEFE.NS"
+     },
+     {
+      "name": "Mangalore Chemicals",
+      "symbol": "MANGCHEM.BO"
+     },
+     {
+      "name": "Marrone Bio Innovations, Inc.",
+      "symbol": "MBII"
+     },
+     {
+      "name": "MBAC Fertilizer Corp",
+      "symbol": "MBC.TO"
+     },
+     {
+      "name": "Meghmani Organics Ltd",
+      "symbol": "M30.SI"
+     },
+     {
+      "name": "Meghmani Organics Ltd",
+      "symbol": "MEGH.BO"
+     },
+     {
+      "name": "Meghmani Organics Ltd",
+      "symbol": "MEGH.NS"
+     },
+     {
+      "name": "Migao Corp",
+      "symbol": "A49.DE"
+     },
+     {
+      "name": "Migao Corp",
+      "symbol": "MGO.TO"
+     },
+     {
+      "name": "Modipon Ltd",
+      "symbol": "MODIPON.BO"
+     },
+     {
+      "name": "Monsanto Co",
+      "symbol": "MON.BA"
+     },
+     {
+      "name": "Monsanto Co",
+      "symbol": "MON.MX"
+     },
+     {
+      "name": "Monsanto Company",
+      "symbol": "MON"
+     },
+     {
+      "name": "Monsanto India Ltd",
+      "symbol": "MONSANTO.BO"
+     },
+     {
+      "name": "Monsanto India Ltd",
+      "symbol": "MONSANTO.NS"
+     },
+     {
+      "name": "Nagarjuna Agrichem Ltd.",
+      "symbol": "NAGAAGRI.BO"
+     },
+     {
+      "name": "Nagarjuna Agritech Ltd",
+      "symbol": "NAGTECH.BO"
+     },
+     {
+      "name": "National Fertilizers Ltd",
+      "symbol": "NFL.BO"
+     },
+     {
+      "name": "National Fertilizers Ltd",
+      "symbol": "NFL.NS"
+     },
+     {
+      "name": "New Oriental Energy & Chemical",
+      "symbol": "NOEC"
+     },
+     {
+      "name": "Nufarm Ltd",
+      "symbol": "NUF.AX"
+     },
+     {
+      "name": "Nufarm Ltd",
+      "symbol": "NUF.DE"
+     },
+     {
+      "name": "Nutriplant Industria",
+      "symbol": "BAZA474.SA"
+     },
+     {
+      "name": "Ocean Agro (India) Ltd",
+      "symbol": "OCEAGRO.BO"
+     },
+     {
+      "name": "Olmix SA",
+      "symbol": "MLOLM.PA"
+     },
+     {
+      "name": "Phyto Chem (India) Ltd",
+      "symbol": "PHYTO.BO"
+     },
+     {
+      "name": "Potash Corp. of Saskatchewan,",
+      "symbol": "POT"
+     },
+     {
+      "name": "Potash of Saskatchewan",
+      "symbol": "POC.DE"
+     },
+     {
+      "name": "Potash of Saskatchewan",
+      "symbol": "POT.TO"
+     },
+     {
+      "name": "Potash of Saskatchewan",
+      "symbol": "POTN.MX"
+     },
+     {
+      "name": "Rallis India Ltd.",
+      "symbol": "RALLIS.BO"
+     },
+     {
+      "name": "Rallis India Ltd.",
+      "symbol": "RALLIS.NS"
+     },
+     {
+      "name": "Rama Phosphates Ltd",
+      "symbol": "RAMAPHO.BO"
+     },
+     {
+      "name": "Rashtriya Chemicals",
+      "symbol": "RCF.BO"
+     },
+     {
+      "name": "Rashtriya Chemicals",
+      "symbol": "RCF.NS"
+     },
+     {
+      "name": "Rentech Nitrogen Partners, L.P",
+      "symbol": "RNF"
+     },
+     {
+      "name": "Rosier",
+      "symbol": "ENGB.BR"
+     },
+     {
+      "name": "Sabero Organics Gujarat Ltd",
+      "symbol": "SABERO.BO"
+     },
+     {
+      "name": "Sabero Organics Gujarat Ltd",
+      "symbol": "SABERORGA.NS"
+     },
+     {
+      "name": "Sacom SpA",
+      "symbol": "SAM.MI"
+     },
+     {
+      "name": "Shiva Global Agro Indus",
+      "symbol": "SHIVAFER.BO"
+     },
+     {
+      "name": "Sinofert Holdings Ltd",
+      "symbol": "WCQ1.DE"
+     },
+     {
+      "name": "Sinofert Holdings Ltd.",
+      "symbol": "0297.HK"
+     },
+     {
+      "name": "Soil Sub Technologies Ltd",
+      "symbol": "SOI.AX"
+     },
+     {
+      "name": "Southern Petrochemicals",
+      "symbol": "SOUTHPET.BO"
+     },
+     {
+      "name": "Southern Petrochemicals",
+      "symbol": "SPIC.NS"
+     },
+     {
+      "name": "Stonegate Agricom Ltd",
+      "symbol": "ST.TO"
+     },
+     {
+      "name": "Stonegate Agricom Ltd",
+      "symbol": "X6S.DE"
+     },
+     {
+      "name": "Super Crop Safe Ltd",
+      "symbol": "SUCROSA.BO"
+     },
+     {
+      "name": "Syngenta AG",
+      "symbol": "SVJ.DE"
+     },
+     {
+      "name": "Syngenta AG",
+      "symbol": "SVJA.DE"
+     },
+     {
+      "name": "Syngenta AG",
+      "symbol": "SYT"
+     },
+     {
+      "name": "Teesta Agro Industries Ltd",
+      "symbol": "TEEAI.BO"
+     },
+     {
+      "name": "Terra Nitrogen Company, L.P.",
+      "symbol": "TNH"
+     },
+     {
+      "name": "The Mosaic Company",
+      "symbol": "MOS"
+     },
+     {
+      "name": "The Scotts Miracle-Gro Company",
+      "symbol": "SMG"
+     },
+     {
+      "name": "Tuticorin Alkali",
+      "symbol": "TUTIALKA.BO"
+     },
+     {
+      "name": "United Phosphorus Ltd",
+      "symbol": "UNIPHOS.NS"
+     },
+     {
+      "name": "United Phosphorus Ltd",
+      "symbol": "UNITEDPHOS.BO"
+     },
+     {
+      "name": "Western Potash Corporation",
+      "symbol": "WPX.TO"
+     },
+     {
+      "name": "Yongye International, Inc.",
+      "symbol": "YONGY"
+     },
+     {
+      "name": "Zuari Global Ltd",
+      "symbol": "ZUARIAGRO.NS"
+     },
+     {
+      "name": "Zuari Global Ltd",
+      "symbol": "ZUARIIND.BO"
+     }
+    ]
+   }
+  }
+ }
+}
