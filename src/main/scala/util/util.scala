@@ -82,25 +82,4 @@ object Utils {
     json
   }
 
-  /**
-   * Get the companies with specified industry id.
-   *
-   * @param id the industry id
-   */
-  // def getCompaniesInIndustry(id: String) = {
-  //   val json = (getInfo("yahoo.finance.industry", "id", id) \ "query" \ "results" \ "industry")
-  //   val jsonList = (json \ "company")
-  //   // val id = (json \ "id").extract[String]
-  //   // val name = (json \ "name").extract[String]
-  //
-  //   val companyList = for {
-  //     JObject(list) <- jsonList 
-  //     List(tuple) <- list
-  //     ((key1, JString(name)), (key2, JString(symbol))) <- list
-  //   } yield (name, symbol) 
-  //   
-  //   companyList
-  // }
-
-
 }

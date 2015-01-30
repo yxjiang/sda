@@ -30,13 +30,10 @@ class TestUtil extends FlatSpec with Matchers {
   //   assert(quote.isInstanceOf[JValue])
   // }
   //
-  // "getCompaniesInIndustry" should "get all the companies belong to a specified industry domain" in {
-  //   val companies = Utils.getCompaniesInIndustry(sectorNo)
-  //   // assert(companies.isInstanceOf[JValue])
-  //   println(companies)
-  //   // val res = Utils.jsonList2List(companies)
-  //   // println(res)
-  // }
+  "getCompaniesInIndustry" should "get all the companies belong to a specified industry domain" in {
+    val companies = Industry.getCompaniesInIndustry(sectorNo)
+    println(companies)
+  }
   //
   // "getCashFlow" should "get the cash flow data of the specified stock" in {
   //   val cashflow = Utils.getCashFlow(symbol)
