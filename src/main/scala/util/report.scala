@@ -12,54 +12,42 @@ object Report {
   def generateCompanyReport(symbol: String) = {
 
     // retrieve data from quotes
-    val quotes = getQuotes(symbol)
-    val lastTradePrice = retrieve(quotes, List("LastTradePriceOnly")).extract[String].toDouble
-    val PERatio = retrieve(quotes, List("PERatio")).extract[String].toDouble
-    val earningPerShare = retrieve(quotes, List("EarningsShare")).extract[String].toDouble
+    val quotes = Quotes.getQuotes(symbol)
+    val lastTradePrice = Quotes.getLastTradePrice(symbol, quotes)
+    val PERatio = Quotes.getPERatio(symbol, quotes) 
+    val earningPerShare = Quotes.getEarningPerShare(symbol, quotes) 
 
     // retrieve data from balance sheet
-    val balanceSheet = getBalanceSheet(symbol)
-    val latestReportDate = jsonList2List(retrieve(balanceSheet, List("period")), "period").head
-    val cashAndCashEquivalents = retrieve(balanceSheet, List("CashAndCashEquivalents", "content"))
-
-    val cashList = jsonList2List(cashAndCashEquivalents, "content") map (value => value.toDouble)
+    val balanceSheet = BalanceSheet.getBalanceSheet(symbol)
+    val latestReportDate = BalanceSheet.getLatestReportDate(symbol, balanceSheet) 
+    val cashList = BalanceSheet.getCashAndCashEquivalents(symbol, balanceSheet) 
 
     val avgCash = doubleFormat(cashList.foldLeft(0.0)(_ + _) / cashList.length)
     val cashIncrease = doubleFormat(cashList.head - cashList.last)
 
-    val longTermDebts = retrieve(balanceSheet, List("LongTermDebt", "content"))
-    val longTermDebtList = jsonList2List(longTermDebts, "content") map (value => value.toDouble)
+    val longTermDebtList = BalanceSheet.getLongTermDebts(symbol, balanceSheet) 
     val avgLongTermDebt = doubleFormat(longTermDebtList.foldLeft(0.0)(_ + _) / longTermDebtList.length)
     val longTermDebtIncrease = doubleFormat(longTermDebtList.head - longTermDebtList.last)
 
-    val shortCurrentLongDebt = retrieve(balanceSheet, List("Short_CurrentLongTermDebt", "content"))
-    val shortCurrentLongDebtList = jsonList2List(shortCurrentLongDebt, "content") map (value => try { value.toDouble } catch { case _: Throwable => 0.0 })
+    val shortCurrentLongDebtList = BalanceSheet.getShortCurrentLongDebt(symbol, balanceSheet) 
     val avgShortCurrentLongDebt = doubleFormat(shortCurrentLongDebtList.foldLeft(0.0)(_ + _) / shortCurrentLongDebtList.length)
     val shortCurrentLongDebtIncrease = doubleFormat(shortCurrentLongDebtList.head - shortCurrentLongDebtList.last)
 
-    val totalStockholderEquity = retrieve(balanceSheet, List("TotalStockholderEquity", "content"))
-    val totalStockholderEquityList = jsonList2List(totalStockholderEquity, "content") map (value => try { value.toDouble })
+    val totalStockholderEquityList = BalanceSheet.getStockholderEquity(symbol, balanceSheet) 
 
     // retrieve data from key stats
-    val keyStats = getKeyStats(symbol)
-    val cashPerShare = retrieve(keyStats, List("TotalCashPerShare", "content")).extract[String].toDouble
+    val keyStats = KeyStats.getKeyStats(symbol)
+    val cashPerShare = KeyStats.getCashPerShare(symbol, keyStats) 
 
-    val quarterlyRevenueGrowthStr = retrieve(keyStats, List("QtrlyRevenueGrowth", "content")).extract[String]
-    val quarterlyRevenueGrowth = "%.2f%%" format quarterlyRevenueGrowthStr.substring(0, quarterlyRevenueGrowthStr.length - 1).toDouble
+    val quarterlyRevenueGrowth = "%.2f%%" format KeyStats.getQuarterlyRevenueGrowth(symbol, keyStats) 
 
-    val quarterlyEarningsGrowthStr = retrieve(keyStats, List("QtrlyEarningsGrowth", "content")).extract[String]
-    val quarterlyEarningsGrowth = "%.2f%%" format quarterlyEarningsGrowthStr.substring(0, quarterlyEarningsGrowthStr.length - 1).toDouble
-    val shareOutstanding = retrieve(keyStats, List("SharesOutstanding")).extract[String].toDouble
-    val profitMargin = retrieve(keyStats, List("ProfitMargin", "content")).extract[String]
+    val quarterlyEarningsGrowth = "%.2f%%" format KeyStats.getQuarterlyEarningsGrowth(symbol, keyStats) 
+    val shareOutstanding = KeyStats.getShareOutstanding(symbol, keyStats)
+    val profitMargin = KeyStats.getProfitMargin(symbol, keyStats) 
 
     // retrieve data from cash flow
-    val cashFlow = getCashFlow(symbol)
-    val latestDividendsPaid = try { 
-      val dividendList = retrieve(cashFlow, List("DividendPaid", "content"))
-      jsonList2List(dividendList, "content").head.toDouble
-    } catch { 
-      case _: Throwable => 0.0 
-    }
+    val cashFlow = CashFlow.getCashFlow(symbol)
+    val latestDividendsPaid = CashFlow.getLatestDividendsPaid(symbol, cashFlow) 
 
     // calculate analysis stats
     val latestNetIncome = jsonList2List(retrieve(cashFlow, List("NetIncome", "content")), "content") map ( x => x.toDouble ) sum

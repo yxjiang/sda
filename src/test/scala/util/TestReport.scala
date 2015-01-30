@@ -8,7 +8,8 @@ import org.json4s.jackson.JsonMethods._
 class TestReport extends FlatSpec with Matchers {
  
   "getCompanyReport" should "get the report for the company" in {
-    val report = Report.generateCompanyReports(List("AAPL", "FB"))
+    val report = Report.generateCompanyReports(List("TSLA", "GRPN"))
 
   }
+
 }

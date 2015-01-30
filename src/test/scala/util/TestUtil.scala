@@ -13,7 +13,7 @@ import scala.util.{Success, Failure}
 class TestUtil extends FlatSpec with Matchers {
 
   val symbol = "GOOG"
-  val sectorNo = 113
+  val sectorNo = "113"
 
   // "getSectors" should "get all the sectors" in {
   //   val sectors = Utils.getSectors
@@ -32,7 +32,10 @@ class TestUtil extends FlatSpec with Matchers {
   //
   // "getCompaniesInIndustry" should "get all the companies belong to a specified industry domain" in {
   //   val companies = Utils.getCompaniesInIndustry(sectorNo)
-  //   assert(companies.isInstanceOf[JValue])
+  //   // assert(companies.isInstanceOf[JValue])
+  //   println(companies)
+  //   // val res = Utils.jsonList2List(companies)
+  //   // println(res)
   // }
   //
   // "getCashFlow" should "get the cash flow data of the specified stock" in {

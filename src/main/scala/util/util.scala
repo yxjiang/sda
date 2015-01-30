@@ -83,59 +83,24 @@ object Utils {
   }
 
   /**
-   * Get the quotes of the stock by symbol.
-   *
-   * @param symbol the symbol of the specified stock
-   */
-  def getQuotes(symbol: String): JValue = {
-    val json = getInfo("yahoo.finance.quotes", "symbol", symbol)
-    (json \ "query" \ "results" \ "quote")
-  } 
-
-  /**
    * Get the companies with specified industry id.
    *
    * @param id the industry id
    */
-  def getCompaniesInIndustry(id: String) = {
-    val json = getInfo("yahoo.finance.industry", "id", id)
-    (json \ "query" \ "results" \ "industry")
-  }
+  // def getCompaniesInIndustry(id: String) = {
+  //   val json = (getInfo("yahoo.finance.industry", "id", id) \ "query" \ "results" \ "industry")
+  //   val jsonList = (json \ "company")
+  //   // val id = (json \ "id").extract[String]
+  //   // val name = (json \ "name").extract[String]
+  //
+  //   val companyList = for {
+  //     JObject(list) <- jsonList 
+  //     List(tuple) <- list
+  //     ((key1, JString(name)), (key2, JString(symbol))) <- list
+  //   } yield (name, symbol) 
+  //   
+  //   companyList
+  // }
 
-  /**
-   * Get the cashflow data of a specified stock.
-   *
-   * @param symbol the symbol of the specified stock.
-   */
-  def getCashFlow(symbol: String) = {
-    val json = getInfo("yahoo.finance.cashflow", "symbol", symbol)
-    val data = (json \ "query" \ "results" \ "cashflow")
-    (data \ "statement") match {
-      case JNothing => throw new Exception("Data not available for cash flow.") 
-      case _ => data
-    }
-  }
-
-  /**
-   * Get the balance sheet data of a specified stock.
-   *
-   * @param symbol the symbol of the specified stock.
-   */
-  def getBalanceSheet(symbol: String) = {
-    val json = getInfo("yahoo.finance.balancesheet", "symbol", symbol)
-    val data = (json \ "query" \ "results" \ "balancesheet")
-    (data \ "statement") match {
-      case JNothing => throw new Exception("Data not available for balance sheet.") 
-      case _ => data
-    }
-  }
-
-  /**
-   * Get the key statistics of a specific stock.
-   */
-  def getKeyStats(symbol: String) = {
-    val json = getInfo("yahoo.finance.keystats", "symbol", symbol)
-    (json \ "query" \ "results" \ "stats")
-  }
 
 }
