@@ -3,6 +3,7 @@ package util
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.JsonDSL.WithDouble._
+import analysis.IndividualStockAnalysis._
 import Utils._
 
 object Report {
@@ -15,7 +16,7 @@ object Report {
     val quotes = Quotes.getQuotes(symbol)
     val lastTradePrice = Quotes.getLastTradePrice(symbol, quotes)
     val PERatio = Quotes.getPERatio(symbol, quotes) 
-    val earningPerShare = Quotes.getEarningPerShare(symbol, quotes) 
+    val earningsPerShare = Quotes.getEarningsPerShare(symbol, quotes) 
 
     // retrieve data from balance sheet
     val balanceSheet = BalanceSheet.getBalanceSheet(symbol)
@@ -48,11 +49,13 @@ object Report {
     // retrieve data from cash flow
     val cashFlow = CashFlow.getCashFlow(symbol)
     val latestDividendsPaid = CashFlow.getLatestDividendsPaid(symbol, cashFlow) 
+    val latestNetIncome = CashFlow.getNetIncome(symbol, cashFlow) 
 
     // calculate analysis stats
-    val latestNetIncome = jsonList2List(retrieve(cashFlow, List("NetIncome", "content")), "content") map ( x => x.toDouble ) sum
-    val adjustPE = (lastTradePrice - cashPerShare) / earningPerShare 
+    val adjustPE = getAdjustPE(symbol, quotes, keyStats)
     val totalStockholderEquityRatio = totalStockholderEquityList.head / (totalStockholderEquityList.head + longTermDebtList.head)
+    val cashStockPriceRatio = getCashStockPriceRatio(symbol, keyStats, quotes)
+    val earningsGrowthPERatio = getEarningsGrowthPERatio(symbol, keyStats, quotes)
 
     // construct report json
     val report = 
@@ -80,7 +83,9 @@ object Report {
         ) ~ 
         ("Analytics" ->
           ("* Adjusted P/E" -> adjustPE) ~
-          ("* Total Stockholder Equity Ratio" -> totalStockholderEquityRatio)
+          ("* Total Stockholder Equity Ratio" -> totalStockholderEquityRatio) ~
+          ("Cash Stock Price Ratio" -> cashStockPriceRatio) ~
+          ("Earnings Growth PE Ratio" -> earningsGrowthPERatio)
         )
       )
     println(pretty(render(report)))

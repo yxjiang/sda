@@ -45,4 +45,13 @@ object CashFlow {
     getDividendsPaid(symbol, cashFlowJson).head
   }  
 
+  def getNetIncome(symbol: String, cashFlowJson: JValue) = {
+    try {
+      val jsonList = retrieve(cashFlowJson, List("NetIncome", "content"))
+      jsonList2List(jsonList, "content") map { v => v.toDouble} sum
+    } catch {
+      case _: Throwable => 0.0
+    }
+  }
+
 }

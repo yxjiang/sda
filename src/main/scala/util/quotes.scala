@@ -37,7 +37,7 @@ object Quotes {
     } 
   }
 
-  def getEarningPerShare(symbol: String, quotesJson: JValue) = {
+  def getEarningsPerShare(symbol: String, quotesJson: JValue) = {
     try {
       val str = retrieve(quotesJson, List("EarningsShare")).extract[String]
       str.toDouble
