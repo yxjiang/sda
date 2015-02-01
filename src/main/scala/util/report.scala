@@ -3,7 +3,7 @@ package util
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.JsonDSL.WithDouble._
-import analysis.IndividualStockAnalysis._
+import analysis.IndividualAnalysis._
 import Utils._
 
 object Report {
@@ -52,10 +52,10 @@ object Report {
     val latestNetIncome = CashFlow.getNetIncome(symbol, cashFlow) 
 
     // calculate analysis stats
-    val adjustPE = getAdjustPE(symbol, quotes, keyStats)
+    val adjustPE = getAdjustPE(symbol, Map("quotes" -> quotes, "keyStats" -> keyStats))
     val totalStockholderEquityRatio = totalStockholderEquityList.head / (totalStockholderEquityList.head + longTermDebtList.head)
-    val cashStockPriceRatio = getCashStockPriceRatio(symbol, keyStats, quotes)
-    val earningsGrowthPERatio = getEarningsGrowthPERatio(symbol, keyStats, quotes)
+    val cashStockPriceRatio = getCashStockPriceRatio(symbol, Map("keyStats" -> keyStats, "quotes" -> quotes))
+    val earningsGrowthPERatio = getEarningsGrowthPERatio(symbol, Map("keyStats" -> keyStats, "quotes" -> quotes))
 
     // construct report json
     val report = 
