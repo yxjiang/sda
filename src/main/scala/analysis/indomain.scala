@@ -9,9 +9,12 @@ import util.KeyStats._
 import util.Industry._
 import IndividualAnalysis._
 
+import scala.math._
+import util.Utils._
+
 object InDomainAnalysis {
   
-  def getCashStockPriceRatioRanking(domainId: String, filter: Tuple2[String, String] => Boolean) = {
+  def getCashStockPriceRatioList(domainId: String, filter: Tuple2[String, String] => Boolean) = {
     
     val companyList = getCompaniesInIndustry(domainId).filter(filter)
     val metricList = companyList.map {
@@ -22,10 +25,10 @@ object InDomainAnalysis {
         (company._1, company._2, cashStockPriceRatio)
       }
     }
-    metricList.sortBy(-_._3)
+    metricList
   }
 
-  def getEarningsGrowthPERatioRanking(domainId: String, filter: Tuple2[String, String] => Boolean) = {
+  def getEarningsGrowthPERatioList(domainId: String, filter: Tuple2[String, String] => Boolean) = {
     val companyList = getCompaniesInIndustry(domainId).filter(filter)
     val metricList = companyList.map {
       company => {
@@ -35,10 +38,10 @@ object InDomainAnalysis {
         (company._1, company._2, earningsGrowthPERatio)
       }
     }
-    metricList.sortBy(-_._3)
+    metricList
   }
 
-  def getPEAdjustPERatioRanking(domainId: String, filter: Tuple2[String, String] => Boolean) = {
+  def getPEAdjustPERatioList(domainId: String, filter: Tuple2[String, String] => Boolean) = {
     val companyList = getCompaniesInIndustry(domainId).filter(filter)
     val metricList = companyList.map {
       company => {
@@ -48,11 +51,34 @@ object InDomainAnalysis {
         (company._1, company._2, earningsGrowthPERatio)
       }
     }
-    metricList.sortBy(_._3)
+    metricList
   }
 
-  def compoundRanking(metricList: List[(String, Tuple2[String, String]) => (String, String, Double)]) = {
-  
+  def compoundRanking(domainId: String, filter: Tuple2[String, String] => Boolean, 
+    metricFuncList: List[(String, Tuple2[String, String] => Boolean) => List[(String, String, Double)]], 
+    topPercentage: Double) = {
+
+    val metricSetList = for {
+      metricFunc <- metricFuncList
+    } yield metricFunc(domainId, filter) 
+
+    val head = metricSetList.head
+    val size = round(head.length * topPercentage).toInt
+
+    // ranking the first list and extract the symbol only
+    val topInHead = metricSetList.head.sortBy(_._3).slice(0, size).map(v => v._2) 
+    println(topInHead)
+    var symbolSet = Set(topInHead: _*)
+
+    // iteratively take the intersection
+    metricSetList.tail.foreach {
+      v => { 
+        val tops = v.sortBy(_._3).slice(0, size).map(v => v._2)
+        symbolSet = symbolSet & Set(tops: _*)
+      }
+    }
+
+    symbolSet
   }
 
 }

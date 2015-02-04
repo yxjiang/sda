@@ -16,13 +16,8 @@ class TestIndomain extends FlatSpec with Matchers {
       x._2.contains(".") == false
     }
 
-    // val res = getCashStockPriceRatioRanking(domainId, filter)
-    // val res = getEarningsGrowthPERatioRanking(domainId, filter)
-    val res = getPEAdjustPERatioRanking(domainId, filter)
-
-    res.foreach {
-      v => println(v)
-    }
+    val metricList = List(getCashStockPriceRatioList _, getEarningsGrowthPERatioList _, getPEAdjustPERatioList _)
+    val res = compoundRanking(domainId, filter, metricList, 0.6)
 
   }
 }

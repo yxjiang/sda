@@ -82,4 +82,9 @@ object Utils {
     json
   }
 
+  /**
+   *  Print the type of the object. 
+   */
+  def manOf[T: Manifest](obj: T): Manifest[T] = manifest[T]
+
 }
