@@ -4,9 +4,14 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.JsonDSL.WithDouble._
 import Utils._
+import MongoDbManager._ 
+import com.mongodb.casbah.Imports._
+
 
 object BalanceSheet {
   implicit val formats = DefaultFormats
+
+  val collName = "BalanceSheet"
 
   /**
    * Get the balance sheet data of a specified stock.
@@ -14,12 +19,9 @@ object BalanceSheet {
    * @param symbol the symbol of the specified stock.
    */
   def getBalanceSheet(symbol: String) = {
-    val json = getInfo("yahoo.finance.balancesheet", "symbol", symbol)
-    val data = (json \ "query" \ "results" \ "balancesheet")
-    (data \ "statement") match {
-      case JNothing => throw new Exception("Balance sheet not available for symbol [%s]." format symbol) 
-      case _ => data
-    }
+    val coll = getCollection(MongoDbManager.dbName, collName) 
+    val res = getDoc(coll, symbol, "yahoo.finance.balancesheet", "symbol", List("query", "results", "balancesheet")).get
+    res
   }
 
   def getReportDates(symbol: String, balanceSheetJson: JValue) = {

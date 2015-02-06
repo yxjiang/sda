@@ -69,6 +69,7 @@ object Report {
           ("Average Cash" -> avgCash) ~ 
           ("* Cash Increase" -> cashIncrease) ~
           ("* Cash Per Share" -> cashPerShare) ~
+          ("Earnings Per Share" -> earningsPerShare) ~
           ("Profit Margin" -> profitMargin) ~
           ("Querterly Revenue Growth (yoy)" -> quarterlyRevenueGrowth) ~
           ("Querterly Earnings Growth (yoy)" -> quarterlyEarningsGrowth)

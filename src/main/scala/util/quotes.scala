@@ -4,10 +4,12 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.JsonDSL.WithDouble._
 import Utils._
+import MongoDbManager._
 
 object Quotes {
 
   implicit val formats = DefaultFormats
+  val collName = "Quotes"
 
   /**
    * Get the quotes of the stock by symbol.
@@ -15,8 +17,9 @@ object Quotes {
    * @param symbol the symbol of the specified stock
    */
   def getQuotes(symbol: String): JValue = {
-    val json = getInfo("yahoo.finance.quotes", "symbol", symbol)
-    (json \ "query" \ "results" \ "quote")
+    val coll = getCollection(MongoDbManager.dbName, collName)
+    val res = getDoc(coll, symbol, "yahoo.finance.quotes", "symbol", List("query", "results", "quote"))
+    res
   } 
   
   def getLastTradePrice(symbol: String, quotesJson: JValue) = {

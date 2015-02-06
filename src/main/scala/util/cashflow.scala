@@ -4,10 +4,12 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.JsonDSL.WithDouble._
 import Utils._
+import MongoDbManager._
 
 object CashFlow {
   
   implicit val formats = DefaultFormats // Brings in default date formats etc.
+  val collName = "CashFlow"
 
   /**
    * Get the cashflow data of a specified stock.
@@ -15,12 +17,9 @@ object CashFlow {
    * @param symbol the symbol of the specified stock.
    */
   def getCashFlow(symbol: String) = {
-    val json = getInfo("yahoo.finance.cashflow", "symbol", symbol)
-    val data = (json \ "query" \ "results" \ "cashflow")
-    (data \ "statement") match {
-      case JNothing => throw new Exception("Data not available for cash flow for symbol [%s]." format  symbol) 
-      case _ => data
-    }
+    val coll = getCollection(MongoDbManager.dbName, collName)
+    val res = getDoc(coll, symbol, "yahoo.finance.cashflow", "symbol", List("query", "results", "cashflow")).get
+    res
   }
 
   def getDividendsPaid(symbol: String, cashFlowJson: JValue) = {

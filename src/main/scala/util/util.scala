@@ -4,16 +4,29 @@ import scala.io.Source
 import java.net.URLEncoder
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
+import org.json4s.DefaultFormats
+import org.json4s.jackson.Serialization
+import org.json4s.jackson.Serialization.write
 
 import dispatch._
 import Defaults._
 import scala.util.{Success, Failure}
+
+import com.mongodb.casbah.Imports._
+
+import java.util.Calendar
+import java.util.Date
+
 
 
 object Utils {
 
   private val urlBase = "https://query.yahooapis.com/v1/public/yql?q="
   private val urlSuffix = "&format=json&env=store://datatables.org/alltableswithkeys" 
+  // val UPDATE_THRESHOLD = 1000.toLong * 60 * 60 * 24 * 30 // 1 month
+  val UPDATE_THRESHOLD = 1000.toLong * 60// 1 minute 
+
+  implicit val formats = DefaultFormats
 
   /**
    * Shortcuts for unimplemented methods.
@@ -32,6 +45,18 @@ object Utils {
    */
   def doubleFormat(value: Double) = {
     "%,.0f" format value 
+  }
+
+  /**
+   *  Print the type of the object. 
+   */
+  def manOf[T: Manifest](obj: T): Manifest[T] = manifest[T]
+
+  /**
+   *  Print out log message.
+   */
+  def log(message: String) = {
+    println(Console.BLUE + ("[%s] %s." format (Calendar.getInstance.getTime, message)) + Console.RESET) 
   }
 
   /**
@@ -65,15 +90,6 @@ object Utils {
     getSectors \ "name"
   }
 
-  // def getInfo(table: String, key: String, value: String): Future[String] = {
-  //   val yqlQuery = "select * from %s where %s = '%s'" format (table, key, value) 
-  //   val yqlUrl = urlBase + yqlQuery + urlSuffix
-  //   val request = url(yqlUrl)
-  //   val response: Future[String] = Http(request OK as.String)
-  //
-  //   response
-  // }
-
   def getInfo(table: String, key: String, value: String) = {
     val yqlQuery = "select * from %s where %s = '%s'" format (table, key, value) 
     val yqlUrl = urlBase + URLEncoder.encode(yqlQuery, "utf-8") + urlSuffix
@@ -83,8 +99,78 @@ object Utils {
   }
 
   /**
-   *  Print the type of the object. 
+   *  Fetch the data from specified place.
    */
-  def manOf[T: Manifest](obj: T): Manifest[T] = manifest[T]
+  def fetchJson(symbol: String, table: String, key: String, path: List[String]): JValue = {
+    val json = getInfo(table, key, symbol)
+    val data = retrieve(json, path) 
+    data
+  }
+
+  /**
+   *  Get the corresponding document from the specified collection.
+   *  This methdo will first attempts to retrieve the document from db.
+   *  If failed, it will grab the data using REST API and update the db.
+   */
+  def getDoc(coll: MongoCollection, value: String, table: String, key: String, path: List[String], attempts: Int = 3): Option[JValue] = {
+    val currentTime = Calendar.getInstance.getTime
+    val searchField = MongoDBObject(key -> value) 
+    val returnField = MongoDBObject("updateTime" -> 1)
+    val retrieveField = MongoDBObject("details" -> 1)
+
+    val docOption = coll.findOne(searchField, returnField)
+    val result: Option[JValue] = docOption match {
+      case Some(timeDoc) => {
+        // check whether the document is out-dated
+        val updateTime = timeDoc.getAs[Date]("updateTime").get
+        if (currentTime.getTime - updateTime.getTime > UPDATE_THRESHOLD) {
+          log("Update out-dated documents")
+          val json = fetchJson(value, table, key, path)
+          val res = updateDoc(value, currentTime, json, coll)
+          Some(json)
+        } else {  // document is not out-dated
+          log("Retrieve from db")
+          coll.findOne(searchField, retrieveField) match {
+            case Some(doc) => {
+              val jvalue = parse(doc.toString)
+              Some(jvalue \ "details")
+            }
+            case None => {
+              None
+            }
+          }  
+        }
+      }
+      case None => {  // no record exists
+        if (attempts > 0) {
+          log("Failed to retrieve document, try again")
+          getDoc(coll, value, table, key, path, attempts - 1)  
+        } else {
+          log("Failed to retrieve document for 3 times, fetch from the REST API")
+          val json = fetchJson(value, table, key, path)
+          insertDoc(value, currentTime, json, coll) 
+          Some(json)
+        }
+      } 
+    }
+
+    val res = result.get
+    result
+  }
+
+  /**
+   *  Insert the document into specified data collection.
+   */
+  def insertDoc(symbol: String, currentTime: Date, json: JValue, coll: MongoCollection) = {
+    val doc = json.values.asInstanceOf[Map[String, Any]]
+    coll.insert(MongoDBObject("symbol" -> symbol, "updateTime" -> currentTime, "details" -> doc))
+  }
+
+  def updateDoc(symbol: String, updateTime: Date, json: JValue, coll: MongoCollection) = {
+    val query = MongoDBObject("symbol" -> symbol)
+    val update = MongoDBObject("updateTime" -> updateTime, "details" -> json)
+    val ret = json.values.asInstanceOf[Map[String, Any]]
+    coll.update(query, update)
+  } 
 
 }

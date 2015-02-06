@@ -4,17 +4,20 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.JsonDSL.WithDouble._
 import Utils._
+import MongoDbManager._
 
 object KeyStats {
 
   implicit val formats = DefaultFormats // Brings in default date formats etc.
+  val collName = "KeyStats"
 
    /**
    * Get the key statistics of a specific stock.
    */
   def getKeyStats(symbol: String) = {
-    val json = getInfo("yahoo.finance.keystats", "symbol", symbol)
-    (json \ "query" \ "results" \ "stats")
+    val coll = getCollection(MongoDbManager.dbName, collName)
+    val res = getDoc(coll, symbol, "yahoo.finance.keystats", "symbol", List("query", "results", "stats")).get
+    res
   }
 
   def getCashPerShare(symbol: String, keyStatsJson: JValue) = {
