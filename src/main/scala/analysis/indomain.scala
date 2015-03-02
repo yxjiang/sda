@@ -7,6 +7,7 @@ import util.BalanceSheet._
 import util.CashFlow._
 import util.KeyStats._
 import util.Industry._
+import util.Report._
 import IndividualAnalysis._
 
 import scala.math._
@@ -14,9 +15,9 @@ import util.Utils._
 
 object InDomainAnalysis {
   
-  def getCashStockPriceRatioList(domainId: String, filter: Tuple2[String, String] => Boolean) = {
+  def getCashStockPriceRatioList(domainId: String, filter: Tuple2[String, String] => Boolean, blackList: Set[String] = Set()) = {
     
-    val companyList = getCompaniesInIndustry(domainId).filter(filter)
+    val companyList = getCompaniesInIndustry(domainId).filter(filter).filter(company => !blackList.contains(company._2))
     val metricList = companyList.map {
       company => {
         val symbol = company._2
@@ -28,8 +29,8 @@ object InDomainAnalysis {
     metricList
   }
 
-  def getEarningsGrowthPERatioList(domainId: String, filter: Tuple2[String, String] => Boolean) = {
-    val companyList = getCompaniesInIndustry(domainId).filter(filter)
+  def getEarningsGrowthPERatioList(domainId: String, filter: Tuple2[String, String] => Boolean, blackList: Set[String] = Set()) = {
+    val companyList = getCompaniesInIndustry(domainId).filter(filter).filter(company => !blackList.contains(company._2))
     val metricList = companyList.map {
       company => {
         val symbol = company._2
@@ -41,8 +42,8 @@ object InDomainAnalysis {
     metricList
   }
 
-  def getPEAdjustPERatioList(domainId: String, filter: Tuple2[String, String] => Boolean) = {
-    val companyList = getCompaniesInIndustry(domainId).filter(filter)
+  def getPEAdjustPERatioList(domainId: String, filter: Tuple2[String, String] => Boolean, blackList: Set[String] = Set()) = {
+    val companyList = getCompaniesInIndustry(domainId).filter(filter).filter(company => !blackList.contains(company._2))
     val metricList = companyList.map {
       company => {
         val symbol = company._2
@@ -55,19 +56,18 @@ object InDomainAnalysis {
   }
 
   def compoundRanking(domainId: String, filter: Tuple2[String, String] => Boolean, 
-    metricFuncList: List[(String, Tuple2[String, String] => Boolean) => List[(String, String, Double)]], 
-    topPercentage: Double) = {
+    metricFuncList: List[(String, Tuple2[String, String] => Boolean, Set[String]) => List[(String, String, Double)]], 
+    topPercentage: Double, blackList: Set[String] = Set()) = {
 
     val metricSetList = for {
       metricFunc <- metricFuncList
-    } yield metricFunc(domainId, filter) 
+    } yield metricFunc(domainId, filter, blackList) 
 
     val head = metricSetList.head
-    val size = round(head.length * topPercentage).toInt
+    val size = round((head.length - blackList.size) * topPercentage).toInt
 
     // ranking the first list and extract the symbol only
     val topInHead = metricSetList.head.sortBy(_._3).slice(0, size).map(v => v._2) 
-    println(topInHead)
     var symbolSet = Set(topInHead: _*)
 
     // iteratively take the intersection
@@ -80,5 +80,19 @@ object InDomainAnalysis {
 
     symbolSet
   }
+
+  def filter(domainId: String, filterFunc: (JValue) => Boolean) = {
+    // default symbol filter
+    def symbolFilter(x: Tuple2[String, String]) = { 
+      x._2.contains(".") == false
+    }
+
+    val companyList = getCompaniesInIndustry(domainId).filter(symbolFilter).map(pair => pair._2)
+    val companyReportList = generateCompanyReports(companyList.toSet)
+    val filteredCompanyReportList = companyReportList.filter(filterFunc).map(report => pretty(report))
+    print(filteredCompanyReportList)
+  }
+
+  
 
 }

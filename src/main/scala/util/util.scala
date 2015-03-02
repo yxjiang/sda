@@ -23,8 +23,8 @@ object Utils {
 
   private val urlBase = "https://query.yahooapis.com/v1/public/yql?q="
   private val urlSuffix = "&format=json&env=store://datatables.org/alltableswithkeys" 
-  // val UPDATE_THRESHOLD = 1000.toLong * 60 * 60 * 24 * 30 // 1 month
-  val UPDATE_THRESHOLD = 1000.toLong * 60// 1 minute 
+  val UPDATE_THRESHOLD = 1000.toLong * 60 * 60 * 24 * 30 // 1 month
+  // val UPDATE_THRESHOLD = 1000.toLong * 60// 1 minute 
 
   implicit val formats = DefaultFormats
 
@@ -50,7 +50,7 @@ object Utils {
   /**
    *  Print the type of the object. 
    */
-  def manOf[T: Manifest](obj: T): Manifest[T] = manifest[T]
+  def typeof[T: Manifest](obj: T): Manifest[T] = manifest[T]
 
   /**
    *  Print out log message.
@@ -124,12 +124,12 @@ object Utils {
         // check whether the document is out-dated
         val updateTime = timeDoc.getAs[Date]("updateTime").get
         if (currentTime.getTime - updateTime.getTime > UPDATE_THRESHOLD) {
-          log("Update out-dated documents")
+          log("Update out-dated documents for [%s]" format value)
           val json = fetchJson(value, table, key, path)
           val res = updateDoc(value, currentTime, json, coll)
           Some(json)
         } else {  // document is not out-dated
-          log("Retrieve from db")
+          log("Retrieve from db for [%s]" format value)
           coll.findOne(searchField, retrieveField) match {
             case Some(doc) => {
               val jvalue = parse(doc.toString)
@@ -143,10 +143,10 @@ object Utils {
       }
       case None => {  // no record exists
         if (attempts > 0) {
-          log("Failed to retrieve document, try again")
+          log("Failed to retrieve document for [%s], try again" format value)
           getDoc(coll, value, table, key, path, attempts - 1)  
         } else {
-          log("Failed to retrieve document for 3 times, fetch from the REST API")
+          log("Failed to retrieve document for [%s] for 3 times, fetch from the REST API" format value)
           val json = fetchJson(value, table, key, path)
           insertDoc(value, currentTime, json, coll) 
           Some(json)
@@ -166,6 +166,9 @@ object Utils {
     coll.insert(MongoDBObject("symbol" -> symbol, "updateTime" -> currentTime, "details" -> doc))
   }
 
+  /**
+   *  Update the existing document using symbol as the key.
+   */
   def updateDoc(symbol: String, updateTime: Date, json: JValue, coll: MongoCollection) = {
     val query = MongoDBObject("symbol" -> symbol)
     val update = MongoDBObject("updateTime" -> updateTime, "details" -> json)

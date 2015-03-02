@@ -21,6 +21,15 @@ object Quotes {
     val res = getDoc(coll, symbol, "yahoo.finance.quotes", "symbol", List("query", "results", "quote"))
     res
   } 
+
+  def getName(symbol: String, quotesJson: JValue) = {
+    try {
+      retrieve(quotesJson, List("Name")).extract[String]
+    } catch {
+      case _: Throwable => throw new Exception("Cannot extract Name for symbol [%s]." format symbol)
+    }
+
+  }
   
   def getLastTradePrice(symbol: String, quotesJson: JValue) = {
     try {

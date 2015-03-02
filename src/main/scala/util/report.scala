@@ -10,10 +10,11 @@ object Report {
   
   implicit val formats = DefaultFormats // Brings in default date formats etc.
   
-  def generateCompanyReport(symbol: String) = {
+  def generateCompanyReport(symbol: String): JValue = {
 
     // retrieve data from quotes
     val quotes = Quotes.getQuotes(symbol)
+    val name = Quotes.getName(symbol, quotes)
     val lastTradePrice = Quotes.getLastTradePrice(symbol, quotes)
     val PERatio = Quotes.getPERatio(symbol, quotes) 
     val earningsPerShare = Quotes.getEarningsPerShare(symbol, quotes) 
@@ -61,6 +62,7 @@ object Report {
     val report = 
       (
         ("Latest Report Date" -> latestReportDate) ~
+        ("name" -> name) ~
         ("symbol" -> symbol) ~ 
         ("P/E" -> PERatio) ~ 
         ("Total Stockholder Equity" -> (totalStockholderEquityList map {equity => "%,.0f" format equity.toDouble})) ~
@@ -89,10 +91,20 @@ object Report {
           ("Earnings Growth PE Ratio" -> earningsGrowthPERatio)
         )
       )
-    println(pretty(render(report)))
+    // println(pretty(render(report)))
+    // pretty(render(report))
+    render(report)
   }
 
-  def generateCompanyReports(symbols: List[String]) = {
-    symbols map (symbol => generateCompanyReport(symbol) )
+  def generateCompanyReports(symbols: Set[String]): Set[JValue] = {
+    val reports = symbols map (
+      symbol => try { 
+        Some(generateCompanyReport(symbol))
+      } catch {
+        case _: Throwable => None
+      }
+    )
+
+    reports.flatten
   }
 }

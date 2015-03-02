@@ -23,7 +23,7 @@ class TestUtil extends FlatSpec with Matchers {
   // }
 
   "getCompaniesInIndustry" should "get all the companies in a specified industry" in {
-    val industry = Industry.getCompaniesInIndustry(sectorNo)
+    // val industry = Industry.getCompaniesInIndustry(sectorNo)
   }
   //
   // "getSectorNames" should "get all the names of the sectors" in {
